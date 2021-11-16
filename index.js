@@ -1,22 +1,19 @@
-const http = require('http');
+const express = require('express');
+const app = express();
+
+var budgetRouter = require('./routes/budgets');
+var categoryRouter = require('./routes/categories');
+var userRouter = require('./routes/user');
+var transactionRouter = require('./routes/transactions');
 
 const port = process.env.PORT || 3000;
 
-const budgets = [
-    {
-        "Id": "1",
-        "Title": "Our Budget",
-        "MonthlyGross": 1000
-    }
-]
+// setup the routes
+app.use('/users', userRouter);
+app.use('/budgets', budgetRouter);
+app.use('/categories', categoryRouter);
+app.use('/transactions', transactionRouter);
 
-const server = http.createServer((req, res) => {
-  res.statusCode = 200;
-  res.setHeader('Content-Type', 'application/json');
-  
-  res.end(JSON.stringify(budgets));
-});
-
-server.listen(port, () => {
-  console.log(`Server running on port: ${port}/`);
+app.listen(port, () => {
+  console.log(`Server running on port: http://localhost:${port}/`);
 });
